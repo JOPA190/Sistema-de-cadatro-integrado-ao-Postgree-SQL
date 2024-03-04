@@ -41,7 +41,7 @@
             this.btn_Inserir = new System.Windows.Forms.Button();
             this.btn_Consultar = new System.Windows.Forms.Button();
             this.btn_Alterar = new System.Windows.Forms.Button();
-            this.tbn_Excluir = new System.Windows.Forms.Button();
+            this.btn_Excluir = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -135,6 +135,7 @@
             this.btn_Inserir.TabIndex = 10;
             this.btn_Inserir.Text = "Inserir";
             this.btn_Inserir.UseVisualStyleBackColor = true;
+            this.btn_Inserir.Click += new System.EventHandler(this.btn_Inserir_Click);
             // 
             // btn_Consultar
             // 
@@ -154,21 +155,21 @@
             this.btn_Alterar.Text = "Alterar";
             this.btn_Alterar.UseVisualStyleBackColor = true;
             // 
-            // tbn_Excluir
+            // btn_Excluir
             // 
-            this.tbn_Excluir.Location = new System.Drawing.Point(270, 315);
-            this.tbn_Excluir.Name = "tbn_Excluir";
-            this.tbn_Excluir.Size = new System.Drawing.Size(70, 39);
-            this.tbn_Excluir.TabIndex = 13;
-            this.tbn_Excluir.Text = "Excluir";
-            this.tbn_Excluir.UseVisualStyleBackColor = true;
+            this.btn_Excluir.Location = new System.Drawing.Point(270, 315);
+            this.btn_Excluir.Name = "btn_Excluir";
+            this.btn_Excluir.Size = new System.Drawing.Size(70, 39);
+            this.btn_Excluir.TabIndex = 13;
+            this.btn_Excluir.Text = "Excluir";
+            this.btn_Excluir.UseVisualStyleBackColor = true;
             // 
             // frm_CADCLI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(376, 383);
-            this.Controls.Add(this.tbn_Excluir);
+            this.Controls.Add(this.btn_Excluir);
             this.Controls.Add(this.btn_Alterar);
             this.Controls.Add(this.btn_Consultar);
             this.Controls.Add(this.btn_Inserir);
@@ -205,6 +206,6 @@
         private System.Windows.Forms.Button btn_Inserir;
         private System.Windows.Forms.Button btn_Consultar;
         private System.Windows.Forms.Button btn_Alterar;
-        private System.Windows.Forms.Button tbn_Excluir;
+        private System.Windows.Forms.Button btn_Excluir;
     }
 }
