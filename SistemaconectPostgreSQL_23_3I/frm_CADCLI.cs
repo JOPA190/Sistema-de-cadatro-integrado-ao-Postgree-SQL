@@ -102,8 +102,8 @@ namespace SistemaconectPostgreSQL_23_3I
                                  "'" + mkt_CPF.Text + "'," +
                                  "'" + txt_Nome.Text + "'," +
                                  "'" + txt_Telefone.Text + "'," +
-                                 "'" + txt_email.Text + "'," +
-                                 "TO_DATE ('" + mkt_DN.Text + "', 'DD/MM/YYYY'));";
+                                 "'" + txt_Email.Text + "'," +
+                                 "TO_DATE ('" + mkt_dn.Text + "', 'DD/MM/YYYY'));";
 
                         //Mensagem para apresentar a String (strSQL)
                         MessageBox.Show(strSQL);
@@ -135,6 +135,94 @@ namespace SistemaconectPostgreSQL_23_3I
 
 
             }
+            catch (Exception erro)
+            {
+                MessageBox.Show(erro.Message);
+            }
+        }
+
+        private void btn_Consultar_Click(object sender, EventArgs e)
+        {
+            //Consultar Registro
+
+            //Bloco try/catch serve para tratamento de exceÃ§Ãµes (possiveis falhas ou erros),
+            //Tratamento de cÃ³digos que podem nÃ£o ser totalmente atendidos e gerarem alguma exceÃ§Ã£o/erro.
+            try
+            {
+                if (mkt_CPF.Text.Trim().Length == 14)
+                {
+                    //Instanciar Objeto da Classe de ConexÃ£o com o Danco de Dados 
+                    Conectar = new NpgsqlConnection(strCon);
+
+                    //Abrir Objeto de ConexÃ£o com Banco de Dados criada acima;
+                    Conectar.Open();
+
+                    //Mondando a String (concatenando) com os objetos do FormulÃ¡rio 
+                    strSQL = "SELECT * FROM Clientes WHERE (CPF =" + "'" + mkt_CPF.Text + "')";
+
+                    //Mensagem para apresentar a String (strSQL)
+                    MessageBox.Show(strSQL);
+
+                    //Instanciando o Objeto da classe de Command (comando) para armazenar a InstruÃ§Ã£o / Clausulas SQL
+                    ComandoSQL = new NpgsqlCommand(strSQL, Conectar);
+
+                    //OleDbDataReader rs = new OleDbDataReader(comandoSQL); 
+                    //Executando sem resposta
+                    //comandoSQL.ExecuteNonQuery();
+
+                    LerRegistro = ComandoSQL.ExecuteReader();
+
+                    //Metodo Read(): Informe um "boolean" "True" (exite Registro) e "False" (NÃ£o Existe Registro),
+                    //Possibilita Ler o Proximo Regsitro de uma Tabela (Enquanto for True, Se existir registro)
+
+                    if (LerRegistro.Read())
+                    {
+                        //Populando Objetos do Form com Dados do Registro (lerRegistro)
+                        mkt_CPF.Text = LerRegistro.GetString(0);
+                        txt_Nome.Text = LerRegistro.GetString(1);
+                        txt_Telefone.Text = LerRegistro.GetString(2);
+                        txt_Email.Text = LerRegistro.GetString(3);
+                        mkt_dn.Text = LerRegistro.GetDateTime(4).ToString("dd/MM/yyyy");
+                    }
+                    else
+                    {
+                        MessageBox.Show("CPF " + mkt_CPF.Text + " NÃ£o Localizado!!!", "Sistema Informa");
+                        mkt_CPF.Focus();
+                    }
+
+                    if (DialogResult.No == MessageBox.Show("Deseja Editar Registro?", "Sistema Informa",
+                                           MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+                    {
+
+                        //Limpar Objetos do FormulÃ¡rio usando a funÃ§Ã£o
+                        LimparObjetos();
+                    }
+                    else
+                    {
+                        btn_Alterar.Enabled = true;
+                        btn_Excluir.Enabled = true;
+                    }
+
+
+                    //Fechar Classe DataReader e Dispose (limpar o Objeto) da Classe de ComandoSQL
+                    LerRegistro.Close();
+                    ComandoSQL.Dispose();
+                    ComandoSQL.Transaction = null;
+
+                    //Fechar ConexÃ£o
+                    Conectar.Close();
+
+                }
+                else
+                {
+                    MessageBox.Show("Preencher corretamente pelo menos o campo CPF!!!");
+                }
+
+                //Votar Cursor para o Objeto de Formulario
+                mkt_CPF.Focus();
+
+            }
+
             catch (Exception erro)
             {
                 MessageBox.Show(erro.Message);

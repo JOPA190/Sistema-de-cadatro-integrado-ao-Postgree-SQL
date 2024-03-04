@@ -145,6 +145,7 @@
             this.btn_Consultar.TabIndex = 11;
             this.btn_Consultar.Text = "Consultar";
             this.btn_Consultar.UseVisualStyleBackColor = true;
+            this.btn_Consultar.Click += new System.EventHandler(this.btn_Consultar_Click);
             // 
             // btn_Alterar
             // 
