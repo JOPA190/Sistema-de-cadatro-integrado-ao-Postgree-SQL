@@ -18,7 +18,7 @@ namespace SistemaconectPostgreSQL_23_3I
             InitializeComponent();
         }
 
-        //Declarar Classe de ConexÃ£o e suas variaveis publicas
+        //Declarar Classe de ConexÃ£o e suas variaveis publicas.
         public NpgsqlConnection Conectar;
         public NpgsqlCommand ComandoSQL;
         public NpgsqlDataReader LerRegistro;
