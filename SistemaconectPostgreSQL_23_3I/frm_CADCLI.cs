@@ -228,5 +228,147 @@ namespace SistemaconectPostgreSQL_23_3I
                 MessageBox.Show(erro.Message);
             }
         }
+
+        private void btn_Alterar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                //Criar e Estanciar Objeto a Classe de ConexÃ£o com o Danco de Dados 
+                Conectar = new NpgsqlConnection(strCon);
+
+                //Abrir Objeto de ConexÃ£o com Banco de Dados criada acima;
+                Conectar.Open();
+
+                if (DialogResult.Yes == MessageBox.Show("Confirma AlteraÃ§Ã£o do Registro?", "Sistema Informa",
+                                                MessageBoxButtons.YesNo,
+                                                MessageBoxIcon.Question,
+                                                MessageBoxDefaultButton.Button2))
+                {
+                    //Mondando a String de Consulta (concatenando) com os objetos do FormulÃ¡rio 
+                    strSQL = "UPDATE clientes SET " +
+                                    "nome = '" + txt_Nome.Text + "', " +
+                                    "telefone = '" + txt_Telefone.Text + "', " +
+                                    "email = '" + txt_Email.Text + "', " +
+                                    "dn = TO_DATE('" + mkt_dn.Text + "', 'DD/MM/YYYY') " +
+                                    "WHERE (cpf = '" + mkt_CPF.Text + "')";
+
+                    //Mensagem para apresentar a String (strSQL)
+                    MessageBox.Show(strSQL);
+
+                    //comandoSQL jÃ¡ Ã© uma Classe OleDbCommand, portanto sÃ³ precisamos Instacia-lÃ¡
+                    ComandoSQL = new NpgsqlCommand(strSQL, Conectar);
+
+                    //Executando sem resposta
+                    ComandoSQL.ExecuteNonQuery();
+                    MessageBox.Show("Registro Alterado com Sucesso...", "Sistema Informa");
+                }
+                else
+                {
+                    MessageBox.Show("OperaÃ§Ã£o Cancelada!!!", "Sistema Informa");
+                }
+
+                MessageBox.Show("Limpar FormulÃ¡rio (Dados)...", "Sistema Informa");
+
+                //Limpar Objetos do FormulÃ¡rio
+                LimparObjetos();
+
+                //Desabilitar (desativar) os botÃµes Alterar e Excluir
+                btn_Alterar.Enabled = false;
+                btn_Excluir.Enabled = false;
+                //Habilitar os botÃµes Inserir e Consultar
+                btn_Consultar.Enabled = true;
+                btn_Inserir.Enabled = true;
+                //Habilitar o mkt_CPF
+                mkt_CPF.Enabled = true;
+
+                //Fechar Classe DataReader e Dispose (limpar o Objeto) da Classe de ComandoSQL
+                LerRegistro.Close();
+                ComandoSQL.Dispose();
+                ComandoSQL.Transaction = null;
+
+                //Fechar ConexÃ£o
+                Conectar.Close();
+
+                //Votar Cursor para o Objeto de Formulario
+                mkt_CPF.Focus();
+
+            }
+            catch (Exception erro)
+            {
+                MessageBox.Show(erro.Message);
+            }
+
+        }
+
+        private void btn_Excluir_Click(object sender, EventArgs e)
+        {
+            //Excluir Registro
+
+            //Bloco try/catch serve para tratamento de exceÃ§Ãµes (possiveis falhas ou erros),
+            //Tratamento de cÃ³digos que podem nÃ£o ser totalmente atendidos e gerarem alguma exceÃ§Ã£o/erro.
+            try
+            {
+
+                //Criar e Estanciar Objeto a Classe de ConexÃ£o com o Danco de Dados 
+                Conectar = new NpgsqlConnection(strCon);
+
+                //Abrir Objeto de ConexÃ£o com Banco de Dados criada acima;
+                Conectar.Open();
+
+
+                //ConsistÃªncia para ExclusÃ£o 
+                if (DialogResult.Yes == MessageBox.Show("Excluir Registro?", "Sistema Informa",
+                                                   MessageBoxButtons.YesNo,
+                                                   MessageBoxIcon.Question,
+                                                   MessageBoxDefaultButton.Button2))
+                {
+                    //Mondando a String de Consulta (concatenando) com os objetos do FormulÃ¡rio 
+                    strSQL = "DELETE FROM clientes WHERE(cpf = '" + mkt_CPF.Text + "')";
+                    MessageBox.Show(strSQL);
+
+                    //comandoSQL jÃ¡ Ã© uma Classe NpgsqlCommand, portanto sÃ³ precisamos Instacia-lÃ¡
+                    ComandoSQL = new NpgsqlCommand(strSQL, Conectar);
+
+                    //Executando sem resposta
+                    ComandoSQL.ExecuteNonQuery();
+                    MessageBox.Show("Registro ExcluÃ­do com Sucesso...", "Sistema Informa");
+                }
+                else
+                {
+                    MessageBox.Show("OperaÃ§Ã£o Cancelada!!!", "Sistema Informa");
+                }
+
+                MessageBox.Show("Limpar FormulÃ¡rio (Dados)...", "Sistema Informa");
+
+                //Limpar Objetos do FormulÃ¡rio
+                LimparObjetos();
+
+                //Desabilitar (desativar) os botÃµes Alterar e Excluir
+                btn_Alterar.Enabled = false;
+                btn_Excluir.Enabled = false;
+                //Habilitar os botÃµes Inserir e Consultar
+                btn_Consultar.Enabled = true;
+                btn_Inserir.Enabled = true;
+                //Habilitar o mkt_CPF
+                mkt_CPF.Enabled = true;
+
+                //Fechar Classe DataReader e Dispose (limpar o Objeto) da Classe de ComandoSQL
+                LerRegistro.Close();
+                ComandoSQL.Dispose();
+                ComandoSQL.Transaction = null;
+
+                //Fechar ConexÃ£o
+                Conectar.Close();
+
+                //Votar Cursor para o Objeto de Formulario
+                mkt_CPF.Focus();
+
+            }
+            catch (Exception erro)
+            {
+                MessageBox.Show(erro.Message);
+            }
+        }
     }
 }

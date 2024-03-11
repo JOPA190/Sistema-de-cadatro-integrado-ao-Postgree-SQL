@@ -155,6 +155,7 @@
             this.btn_Alterar.TabIndex = 12;
             this.btn_Alterar.Text = "Alterar";
             this.btn_Alterar.UseVisualStyleBackColor = true;
+            this.btn_Alterar.Click += new System.EventHandler(this.btn_Alterar_Click);
             // 
             // btn_Excluir
             // 
@@ -164,6 +165,7 @@
             this.btn_Excluir.TabIndex = 13;
             this.btn_Excluir.Text = "Excluir";
             this.btn_Excluir.UseVisualStyleBackColor = true;
+            this.btn_Excluir.Click += new System.EventHandler(this.btn_Excluir_Click);
             // 
             // frm_CADCLI
             // 
