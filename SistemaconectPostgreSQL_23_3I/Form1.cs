@@ -19,7 +19,17 @@ namespace SistemaconectPostgreSQL_23_3I
 
         private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+           new frm_CADCLI().Show();
+        }
 
+        private void fornecedoresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new frm_CADFOR().Show();
+        }
+
+        private void sairToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
