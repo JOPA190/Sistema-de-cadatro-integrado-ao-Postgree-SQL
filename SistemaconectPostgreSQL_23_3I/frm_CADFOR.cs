@@ -41,6 +41,7 @@ namespace SistemaconectPostgreSQL_23_3I
             txt_Telefonef.Clear();
             txt_Email.Clear();
             txt_RS.Clear();
+            txt_date.Clear();
 
             return;
 
@@ -133,6 +134,237 @@ namespace SistemaconectPostgreSQL_23_3I
                 //Votar Cursor para o Objeto de Formulario
                 txt_CNPJ.Focus();
 
+
+            }
+            catch (Exception erro)
+            {
+                MessageBox.Show(erro.Message);
+            }
+        }
+
+        private void btn_Consultar_Click(object sender, EventArgs e)
+        {
+            //Consultar Registro
+
+            //Bloco try/catch serve para tratamento de exceÃ§Ãµes (possiveis falhas ou erros),
+            //Tratamento de cÃ³digos que podem nÃ£o ser totalmente atendidos e gerarem alguma exceÃ§Ã£o/erro.
+            try
+            {
+                if (txt_CNPJ.Text.Trim().Length == 20)
+                {
+                    //Instanciar Objeto da Classe de ConexÃ£o com o Danco de Dados 
+                    Conectar = new NpgsqlConnection(strCon);
+
+                    //Abrir Objeto de ConexÃ£o com Banco de Dados criada acima;
+                    Conectar.Open();
+
+                    //Mondando a String (concatenando) com os objetos do FormulÃ¡rio 
+                    strSQL = "SELECT * FROM fornecedor WHERE (CNPJ =" + "'" + txt_CNPJ.Text + "')";
+
+                    //Mensagem para apresentar a String (strSQL)
+                    MessageBox.Show(strSQL);
+
+                    //Instanciando o Objeto da classe de Command (comando) para armazenar a InstruÃ§Ã£o / Clausulas SQL
+                    ComandoSQL = new NpgsqlCommand(strSQL, Conectar);
+
+                    //OleDbDataReader rs = new OleDbDataReader(comandoSQL); 
+                    //Executando sem resposta
+                    //comandoSQL.ExecuteNonQuery();
+
+                    LerRegistro = ComandoSQL.ExecuteReader();
+
+                    //Metodo Read(): Informe um "boolean" "True" (exite Registro) e "False" (NÃ£o Existe Registro),
+                    //Possibilita Ler o Proximo Regsitro de uma Tabela (Enquanto for True, Se existir registro)
+
+                    if (LerRegistro.Read())
+                    {
+                        //Populando Objetos do Form com Dados do Registro (lerRegistro)
+                        txt_CNPJ.Text = LerRegistro.GetString(0);
+                        txt_NomeFantasia.Text = LerRegistro.GetString(1);
+                        txt_Telefonef.Text = LerRegistro.GetString(2);
+                        txt_Email.Text = LerRegistro.GetString(3);
+                        txt_RS.Text = LerRegistro.GetString(4);
+                        txt_date.Text = LerRegistro.GetDateTime(5).ToString("dd/MM/yyyy");
+                    }
+                    else
+                    {
+                        MessageBox.Show("CNPJ " + txt_CNPJ.Text + " NÃ£o Localizado!!!", "Sistema Informa");
+                       txt_CNPJ.Focus();
+                    }
+
+                    if (DialogResult.No == MessageBox.Show("Deseja Editar Registro?", "Sistema Informa",
+                                           MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+                    {
+
+                        //Limpar Objetos do FormulÃ¡rio usando a funÃ§Ã£o
+                        LimparObjetos();
+                    }
+                    else
+                    {
+                        btn_Alterar.Enabled = true;
+                        btn_Excluir.Enabled = true;
+                    }
+
+
+                    //Fechar Classe DataReader e Dispose (limpar o Objeto) da Classe de ComandoSQL
+                    LerRegistro.Close();
+                    ComandoSQL.Dispose();
+                    ComandoSQL.Transaction = null;
+
+                    //Fechar ConexÃ£o
+                    Conectar.Close();
+
+                }
+                else
+                {
+                    MessageBox.Show("Preencher corretamente pelo menos o campo CNPJ!!!");
+                }
+
+                //Votar Cursor para o Objeto de Formulario
+                txt_CNPJ.Focus();
+
+            }
+
+            catch (Exception erro)
+            {
+                MessageBox.Show(erro.Message);
+            }
+        }
+
+        private void btn_Alterar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                //Criar e Estanciar Objeto a Classe de ConexÃ£o com o Danco de Dados 
+                Conectar = new NpgsqlConnection(strCon);
+
+                //Abrir Objeto de ConexÃ£o com Banco de Dados criada acima;
+                Conectar.Open();
+
+                if (DialogResult.Yes == MessageBox.Show("Confirma AlteraÃ§Ã£o do Registro?", "Sistema Informa",
+                                                MessageBoxButtons.YesNo,
+                                                MessageBoxIcon.Question,
+                                                MessageBoxDefaultButton.Button2))
+                {
+                    //Mondando a String de Consulta (concatenando) com os objetos do FormulÃ¡rio 
+                    strSQL = "UPDATE fornecedor SET " +
+                                    "nome_fantasia = '" + txt_NomeFantasia.Text + "', " +
+                                    "telefone = '" + txt_Telefonef.Text + "', " +
+                                    "email = '" + txt_Email.Text + "', " +
+                                    "razao_social = '" + txt_RS.Text + "', " +
+                                    "dn = TO_DATE('" + txt_date.Text + "', 'DD/MM/YYYY') " +
+                                    "WHERE (cnpj = '" + txt_CNPJ.Text + "')";
+
+                    //Mensagem para apresentar a String (strSQL)
+                    MessageBox.Show(strSQL);
+
+                    //comandoSQL jÃ¡ Ã© uma Classe OleDbCommand, portanto sÃ³ precisamos Instacia-lÃ¡
+                    ComandoSQL = new NpgsqlCommand(strSQL, Conectar);
+
+                    //Executando sem resposta
+                    ComandoSQL.ExecuteNonQuery();
+                    MessageBox.Show("Registro Alterado com Sucesso...", "Sistema Informa");
+                }
+                else
+                {
+                    MessageBox.Show("OperaÃ§Ã£o Cancelada!!!", "Sistema Informa");
+                }
+
+                MessageBox.Show("Limpar FormulÃ¡rio (Dados)...", "Sistema Informa");
+
+                //Limpar Objetos do FormulÃ¡rio
+                LimparObjetos();
+
+                //Desabilitar (desativar) os botÃµes Alterar e Excluir
+                btn_Alterar.Enabled = false;
+                btn_Excluir.Enabled = false;
+                //Habilitar os botÃµes Inserir e Consultar
+                btn_Consultar.Enabled = true;
+                btn_Inserir.Enabled = true;
+                //Habilitar o mkt_CPF
+                txt_CNPJ.Enabled = true;
+
+                //Fechar Classe DataReader e Dispose (limpar o Objeto) da Classe de ComandoSQL
+                LerRegistro.Close();
+                ComandoSQL.Dispose();
+                ComandoSQL.Transaction = null;
+
+                //Fechar ConexÃ£o
+                Conectar.Close();
+
+                //Votar Cursor para o Objeto de Formulario
+                txt_CNPJ.Focus();
+
+            }
+            catch (Exception erro)
+            {
+                MessageBox.Show(erro.Message);
+            }
+        }
+
+        private void btn_Excluir_Click(object sender, EventArgs e)
+        {
+            //Excluir Registro
+
+            //Bloco try/catch serve para tratamento de exceÃ§Ãµes (possiveis falhas ou erros),
+            //Tratamento de cÃ³digos que podem nÃ£o ser totalmente atendidos e gerarem alguma exceÃ§Ã£o/erro.
+            try
+            {
+
+                //Criar e Estanciar Objeto a Classe de ConexÃ£o com o Danco de Dados 
+                Conectar = new NpgsqlConnection(strCon);
+
+                //Abrir Objeto de ConexÃ£o com Banco de Dados criada acima;
+                Conectar.Open();
+
+
+                //ConsistÃªncia para ExclusÃ£o 
+                if (DialogResult.Yes == MessageBox.Show("Excluir Registro?", "Sistema Informa",
+                                                   MessageBoxButtons.YesNo,
+                                                   MessageBoxIcon.Question,
+                                                   MessageBoxDefaultButton.Button2))
+                {
+                    //Mondando a String de Consulta (concatenando) com os objetos do FormulÃ¡rio 
+                    strSQL = "DELETE FROM fornecedor WHERE(cnpj = '" + txt_CNPJ.Text + "')";
+                    MessageBox.Show(strSQL);
+
+                    //comandoSQL jÃ¡ Ã© uma Classe NpgsqlCommand, portanto sÃ³ precisamos Instacia-lÃ¡
+                    ComandoSQL = new NpgsqlCommand(strSQL, Conectar);
+
+                    //Executando sem resposta
+                    ComandoSQL.ExecuteNonQuery();
+                    MessageBox.Show("Registro ExcluÃ­do com Sucesso...", "Sistema Informa");
+                }
+                else
+                {
+                    MessageBox.Show("OperaÃ§Ã£o Cancelada!!!", "Sistema Informa");
+                }
+
+                MessageBox.Show("Limpar FormulÃ¡rio (Dados)...", "Sistema Informa");
+
+                //Limpar Objetos do FormulÃ¡rio
+                LimparObjetos();
+
+                //Desabilitar (desativar) os botÃµes Alterar e Excluir
+                btn_Alterar.Enabled = false;
+                btn_Excluir.Enabled = false;
+                //Habilitar os botÃµes Inserir e Consultar
+                btn_Consultar.Enabled = true;
+                btn_Inserir.Enabled = true;
+                //Habilitar o mkt_CPF
+                txt_CNPJ.Enabled = true;
+
+                //Fechar Classe DataReader e Dispose (limpar o Objeto) da Classe de ComandoSQL
+                LerRegistro.Close();
+                ComandoSQL.Dispose();
+                ComandoSQL.Transaction = null;
+
+                //Fechar ConexÃ£o
+                Conectar.Close();
+
+                //Votar Cursor para o Objeto de Formulario
+                txt_CNPJ.Focus();
 
             }
             catch (Exception erro)

@@ -54,6 +54,7 @@
             this.btn_Excluir.TabIndex = 27;
             this.btn_Excluir.Text = "Excluir";
             this.btn_Excluir.UseVisualStyleBackColor = true;
+            this.btn_Excluir.Click += new System.EventHandler(this.btn_Excluir_Click);
             // 
             // btn_Alterar
             // 
@@ -63,6 +64,7 @@
             this.btn_Alterar.TabIndex = 26;
             this.btn_Alterar.Text = "Alterar";
             this.btn_Alterar.UseVisualStyleBackColor = true;
+            this.btn_Alterar.Click += new System.EventHandler(this.btn_Alterar_Click);
             // 
             // btn_Consultar
             // 
@@ -72,6 +74,7 @@
             this.btn_Consultar.TabIndex = 25;
             this.btn_Consultar.Text = "Consultar";
             this.btn_Consultar.UseVisualStyleBackColor = true;
+            this.btn_Consultar.Click += new System.EventHandler(this.btn_Consultar_Click);
             // 
             // btn_Inserir
             // 
@@ -204,7 +207,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "frm_CADFOR";
-            this.Text = "frm_CADFOR";
+            this.Text = "cadastro de fornecedores";
             this.ResumeLayout(false);
             this.PerformLayout();
 
