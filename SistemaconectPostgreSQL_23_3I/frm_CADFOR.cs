@@ -42,6 +42,7 @@ namespace SistemaconectPostgreSQL_23_3I
             txt_Email.Clear();
             txt_RS.Clear();
             txt_date.Clear();
+            txt_representante.Clear();
 
             return;
 
@@ -97,13 +98,14 @@ namespace SistemaconectPostgreSQL_23_3I
                         //Podemos efetuar a validaÃ§Ã£o de todos os campos, antes de inserirmos o registro...
                         //Montando a variavel tipo String "strSQL" de InserÃ§Ã£o dos Dados (concatenando) com os objetos do FormulÃ¡rio 
                         strSQL = "INSERT INTO fornecedor " +
-                                 "(CNPJ, nome_fantasia, telefone, email, razao_social, dn) " +
+                                 "(CNPJ, nome_fantasia, telefone, email, razao_social, representante, dn) " +
                                  "VALUES (" +
                                  "'" + txt_CNPJ.Text + "'," +
                                  "'" + txt_NomeFantasia.Text + "'," +
                                  "'" + txt_Telefonef.Text + "'," +
                                  "'" + txt_Email.Text + "'," +
                                  "'" + txt_RS.Text + "'," +
+                                 "'" + txt_representante.Text + "'," +
                                  "TO_DATE ('" + txt_date.Text + "', 'DD/MM/YYYY'));";
 
                         //Mensagem para apresentar a String (strSQL)
@@ -185,6 +187,7 @@ namespace SistemaconectPostgreSQL_23_3I
                         txt_Email.Text = LerRegistro.GetString(3);
                         txt_RS.Text = LerRegistro.GetString(4);
                         txt_date.Text = LerRegistro.GetDateTime(5).ToString("dd/MM/yyyy");
+                        txt_representante.Text = LerRegistro.GetString(6);
                     }
                     else
                     {
@@ -253,6 +256,7 @@ namespace SistemaconectPostgreSQL_23_3I
                                     "telefone = '" + txt_Telefonef.Text + "', " +
                                     "email = '" + txt_Email.Text + "', " +
                                     "razao_social = '" + txt_RS.Text + "', " +
+                                     "representante = '" + txt_representante.Text + "', " +
                                     "dn = TO_DATE('" + txt_date.Text + "', 'DD/MM/YYYY') " +
                                     "WHERE (cnpj = '" + txt_CNPJ.Text + "')";
 

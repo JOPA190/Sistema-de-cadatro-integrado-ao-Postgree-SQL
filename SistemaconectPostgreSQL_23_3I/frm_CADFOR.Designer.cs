@@ -44,11 +44,13 @@
             this.txt_CNPJ = new System.Windows.Forms.MaskedTextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txt_date = new System.Windows.Forms.MaskedTextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txt_representante = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btn_Excluir
             // 
-            this.btn_Excluir.Location = new System.Drawing.Point(273, 319);
+            this.btn_Excluir.Location = new System.Drawing.Point(274, 346);
             this.btn_Excluir.Name = "btn_Excluir";
             this.btn_Excluir.Size = new System.Drawing.Size(70, 39);
             this.btn_Excluir.TabIndex = 27;
@@ -58,7 +60,7 @@
             // 
             // btn_Alterar
             // 
-            this.btn_Alterar.Location = new System.Drawing.Point(197, 319);
+            this.btn_Alterar.Location = new System.Drawing.Point(198, 346);
             this.btn_Alterar.Name = "btn_Alterar";
             this.btn_Alterar.Size = new System.Drawing.Size(70, 39);
             this.btn_Alterar.TabIndex = 26;
@@ -68,7 +70,7 @@
             // 
             // btn_Consultar
             // 
-            this.btn_Consultar.Location = new System.Drawing.Point(121, 319);
+            this.btn_Consultar.Location = new System.Drawing.Point(122, 346);
             this.btn_Consultar.Name = "btn_Consultar";
             this.btn_Consultar.Size = new System.Drawing.Size(70, 39);
             this.btn_Consultar.TabIndex = 25;
@@ -78,7 +80,7 @@
             // 
             // btn_Inserir
             // 
-            this.btn_Inserir.Location = new System.Drawing.Point(45, 319);
+            this.btn_Inserir.Location = new System.Drawing.Point(46, 346);
             this.btn_Inserir.Name = "btn_Inserir";
             this.btn_Inserir.Size = new System.Drawing.Size(70, 39);
             this.btn_Inserir.TabIndex = 24;
@@ -170,7 +172,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(68, 288);
+            this.label6.Location = new System.Drawing.Point(69, 315);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(28, 13);
             this.label6.TabIndex = 30;
@@ -178,18 +180,36 @@
             // 
             // txt_date
             // 
-            this.txt_date.Location = new System.Drawing.Point(143, 285);
+            this.txt_date.Location = new System.Drawing.Point(144, 312);
             this.txt_date.Mask = "00/00/0000";
             this.txt_date.Name = "txt_date";
             this.txt_date.Size = new System.Drawing.Size(73, 20);
             this.txt_date.TabIndex = 31;
             this.txt_date.ValidatingType = typeof(System.DateTime);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(44, 287);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(77, 13);
+            this.label7.TabIndex = 32;
+            this.label7.Text = "Representante";
+            // 
+            // txt_representante
+            // 
+            this.txt_representante.Location = new System.Drawing.Point(143, 284);
+            this.txt_representante.Name = "txt_representante";
+            this.txt_representante.Size = new System.Drawing.Size(144, 20);
+            this.txt_representante.TabIndex = 33;
+            // 
             // frm_CADFOR
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(374, 397);
+            this.Controls.Add(this.txt_representante);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.txt_date);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txt_CNPJ);
@@ -231,5 +251,7 @@
         private System.Windows.Forms.MaskedTextBox txt_CNPJ;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.MaskedTextBox txt_date;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txt_representante;
     }
 }
